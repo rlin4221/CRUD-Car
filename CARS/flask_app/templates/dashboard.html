@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <title>Car Posts</title>
+</head>
+<body>
+    <div class="container">
+      <div class="d-flex justify-content-between">
+        <h1>Welcome to Car Deals, {{logged_user.first_name}}</h1>
+        <div>
+          <a href="/users/logout" class="btn btn-danger">Logout</a>
+        </div>
+      </div>
+      <h3>Cars for Sale</h3>
+      {% for message in get_flashed_messages() %}
+      <p class="text-danger">{{message}}</p>
+      {% endfor %}
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Seller</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for one_car in all_cars %}
+          <tr>
+            <td>{{one_car.model}}</td>
+            <td>{{one_car.year}}</td>
+            <td>{{one_car.planner.first_name}} {{one_car.planner.last_name}}</td>
+            <td>
+              <a href="/cars/{{one_car.id}}">View</a>
+              {% if logged_user.id == one_car.planner.id %}
+              <a href="/cars/{{one_car.id}}/edit">Edit</a>
+              <a href="/cars/{{one_car.id}}/delete">Delete</a>
+              {%endif%}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="/cars/new" class="btn btn-primary">Add A Car</a>
+    </div>
+</body>
+</html>
